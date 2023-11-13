@@ -1,9 +1,17 @@
+import 'package:bmi_calculator/components/custom_main_btn.dart';
 import 'package:bmi_calculator/components/gender_widget.dart';
 import 'package:bmi_calculator/components/height_widget.dart';
 import 'package:bmi_calculator/components/weight_and_age_widget.dart';
 import 'package:bmi_calculator/constants/colors/app_colors.dart';
+import 'package:bmi_calculator/constants/strings/app_strings.dart';
 import 'package:bmi_calculator/constants/text_styles/text_styles.dart';
+import 'package:bmi_calculator/data/local_data/bmi_calculator_data.dart';
+import 'package:bmi_calculator/views/result_view.dart';
 import 'package:flutter/material.dart';
+
+enum Gender { Erkek, Ayal, EchBiri }
+
+enum Toyota { Corola, Rav4, Camry }
 
 class BmiView extends StatefulWidget {
   const BmiView({Key? key}) : super(key: key);
@@ -22,7 +30,7 @@ class _BmiViewState extends State<BmiView> {
 
   bool male = false;
   bool female = false;
-
+  Gender _gender = Gender.EchBiri;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +39,7 @@ class _BmiViewState extends State<BmiView> {
         backgroundColor: AppColors.bgColor,
         centerTitle: true,
         title: Text(
-          'bmi Calculator'.toUpperCase(),
+          AppStrings().bmiCalculator.toUpperCase(),
         ),
       ),
       body: Column(
@@ -40,23 +48,21 @@ class _BmiViewState extends State<BmiView> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GenderWidget(
-                color: male ? activColor : inactivColor,
+                color: _gender == Gender.Erkek ? activColor : inactivColor,
                 icon: Icons.male,
-                title: 'Эркек',
+                title: AppStrings().male,
                 onTap: () {
                   setState(() {});
-                  male = true;
-                  female = false;
+                  _gender = Gender.Erkek;
                 },
               ),
               GenderWidget(
-                color: female ? activColor : inactivColor,
+                color: _gender == Gender.Ayal ? activColor : inactivColor,
                 icon: Icons.female,
-                title: 'Аял',
+                title: AppStrings().female,
                 onTap: () {
                   setState(() {});
-                  female = true;
-                  male = false;
+                  _gender = Gender.Ayal;
                 },
               ),
             ],
@@ -76,7 +82,7 @@ class _BmiViewState extends State<BmiView> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               WeightAndAgeWidget(
-                title: 'Weight',
+                title: AppStrings().weight,
                 weightOrAge: '$_weight',
                 onMinus: () {
                   setState(() {
@@ -89,7 +95,7 @@ class _BmiViewState extends State<BmiView> {
                 },
               ),
               WeightAndAgeWidget(
-                title: 'Age',
+                title: AppStrings().age,
                 weightOrAge: '$_age',
                 onMinus: () {
                   setState(() {
@@ -106,21 +112,27 @@ class _BmiViewState extends State<BmiView> {
           ),
         ],
       ),
-      bottomNavigationBar: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          backgroundColor: AppColors.cyan, // background color
-          elevation: 5, // button's elevation when it's pressed
-        ),
-        child: Text(
-          'Calculate'.toUpperCase(),
-          style: AppTextStyles.white35w300,
-        ),
+      bottomNavigationBar: CustomMainBtn(
+        btnText: AppStrings().calculate,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ResultView(
+                bmiResult: bmiCalculatorData.claculateBmi(
+                  height: _adamdynBoiu,
+                  weight: _weight,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 }
+
+
 
 
 /// male ? activColor : inactivColor,
@@ -129,3 +141,6 @@ class _BmiViewState extends State<BmiView> {
 /// }else{
 /// return inactiveColor
 /// }
+/// 
+/// 
+/// enum - turlor

@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/constants/colors/app_colors.dart';
 import 'package:bmi_calculator/constants/decoration/app_decoration.dart';
+import 'package:bmi_calculator/constants/strings/app_strings.dart';
 import 'package:bmi_calculator/constants/text_styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class HeightWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Height".toUpperCase(),
+            AppStrings().height.toUpperCase(),
             style: AppTextStyles.white26w400,
           ),
           const SizedBox(height: 8),
